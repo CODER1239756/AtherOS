@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AtherOS — Personal Digital Universe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="root">
+  <canvas id="particles"></canvas>
+
+  <!-- BOOT SCREEN -->
+  <div id="boot">
+    <div class="boot-ring"></div>
+    <div class="boot-logo">ATHER<span>OS</span></div>
+    <div class="boot-sub">PERSONAL DIGITAL UNIVERSE &nbsp;·&nbsp; v2050.2</div>
+    <div class="boot-bar-wrap"><div class="boot-bar" id="bootBar"></div></div>
+    <div class="boot-msg" id="bootMsg">Initializing kernel...</div>
+  </div>
+
+  <!-- LOCK SCREEN -->
+  <div id="lock">
+    <div class="lock-bg"></div>
+    <div class="lock-content">
+      <div class="lock-time" id="lockTime">00:00</div>
+      <div class="lock-date" id="lockDate">—</div>
+      <div class="lock-pin" id="lockPin">
+        <div class="lock-dot" id="ld0"></div>
+        <div class="lock-dot" id="ld1"></div>
+        <div class="lock-dot" id="ld2"></div>
+        <div class="lock-dot" id="ld3"></div>
+      </div>
+      <div class="lock-hint">CLICK ANYWHERE &nbsp;·&nbsp; OR ENTER PIN (1234)</div>
+    </div>
+  </div>
+
+  <!-- DESKTOP -->
+  <div id="desktop">
+    <div class="wallpaper" id="wallpaper"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Desktop Icons -->
+    <div id="desktop-icons">
+      <div class="desk-icon" ondblclick="OS.openApp('dualsoul')" data-app="dualsoul">
+        <div class="desk-icon-img" style="background:linear-gradient(135deg,#a855f7,#00d4ff);">✦</div>
+        <div class="desk-icon-label">DualSoul</div>
+      </div>
+      <div class="desk-icon" ondblclick="OS.openApp('terminal')" data-app="terminal">
+        <div class="desk-icon-img" style="background:linear-gradient(135deg,#00ff88,#00b4cc);">⌨</div>
+        <div class="desk-icon-label">Terminal</div>
+      </div>
+      <div class="desk-icon" ondblclick="OS.openApp('files')" data-app="files">
+        <div class="desk-icon-img" style="background:linear-gradient(135deg,#f59e0b,#ef4444);">📁</div>
+        <div class="desk-icon-label">Files</div>
+      </div>
+      <div class="desk-icon" ondblclick="OS.openApp('gallery')" data-app="gallery">
+        <div class="desk-icon-img" style="background:linear-gradient(135deg,#ec4899,#f97316);">🖼</div>
+        <div class="desk-icon-label">Gallery</div>
+      </div>
+      <div class="desk-icon" ondblclick="OS.openApp('code')" data-app="code">
+        <div class="desk-icon-img" style="background:linear-gradient(135deg,#6366f1,#a855f7);">&lt;/&gt;</div>
+        <div class="desk-icon-label">Code</div>
+      </div>
+      <div class="desk-icon" ondblclick="OS.openApp('music')" data-app="music">
+        <div class="desk-icon-img" style="background:linear-gradient(135deg,#ec4899,#a855f7);">♪</div>
+        <div class="desk-icon-label">Music</div>
+      </div>
+      <div class="desk-icon" ondblclick="OS.openApp('notes')" data-app="notes">
+        <div class="desk-icon-img" style="background:linear-gradient(135deg,#f59e0b,#22c55e);">✏</div>
+        <div class="desk-icon-label">Notes</div>
+      </div>
+      <div class="desk-icon" ondblclick="OS.openApp('browser')" data-app="browser">
+        <div class="desk-icon-img" style="background:linear-gradient(135deg,#3b82f6,#00d4ff);">◎</div>
+        <div class="desk-icon-label">Browser</div>
+      </div>
+    </div>
+
+    <!-- Widgets -->
+    <div id="widgets">
+      <!-- Weather Widget -->
+      <div class="widget" id="widget-weather" style="right:20px;top:20px;width:185px;">
+        <div class="widget-title">WEATHER STATION</div>
+        <div class="weather-temp">28°C</div>
+        <div class="weather-cond">⛅ Partly Cloudy</div>
+        <div class="weather-city">MUMBAI · IN</div>
+        <div class="weather-row">
+          <div class="weather-mini"><div class="wm-val">72%</div><div class="wm-lbl">HUMIDITY</div></div>
+          <div class="weather-mini"><div class="wm-val">14km</div><div class="wm-lbl">WIND</div></div>
+          <div class="weather-mini"><div class="wm-val">31°</div><div class="wm-lbl">HIGH</div></div>
+        </div>
+      </div>
+
+      <!-- Quote Widget -->
+      <div class="widget" id="widget-quote" style="right:20px;top:228px;width:215px;">
+        <div class="widget-title">THOUGHT ARCHIVE</div>
+        <div class="quote-text" id="quoteText">"The universe is not outside of you. Look inside yourself; everything that you want, you already are."</div>
+        <div class="quote-author" id="quoteAuthor">— Rumi</div>
+      </div>
+
+      <!-- Calendar Widget -->
+      <div class="widget" id="widget-cal" style="right:20px;top:420px;width:215px;">
+        <div class="widget-title">TEMPORAL LOG</div>
+        <div class="cal-month" id="calMonth"></div>
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+    </div>
+
+    <!-- System Badge -->
+    <div class="sys-badge" id="sysBadge">
+      <div class="sys-led"></div>
+      <span id="sysStatus">ONLINE</span>
+    </div>
+
+    <!-- Windows Container -->
+    <div id="windows"></div>
+
+    <!-- Context Menu -->
+    <div id="contextMenu"></div>
+
+    <!-- Notifications -->
+    <div id="notifications"></div>
+
+    <!-- Spotlight Search -->
+    <div id="spotlight">
+      <input class="spotlight-input" id="spotlightInput"
+        placeholder="⌕ Search AtherOS..."
+        oninput="OS.spotSearch(this.value)"
+        onkeydown="OS.spotKey(event)">
+      <div class="spotlight-results" id="spotlightResults"></div>
+    </div>
+
+    <!-- App Launcher -->
+    <div id="launcher">
+      <input class="launcher-search" placeholder="Search apps..."
+        oninput="OS.filterLauncher(this.value)">
+      <div class="launcher-grid" id="launcherGrid"></div>
+    </div>
+
+    <!-- AI Panel -->
+    <div id="aiPanel">
+      <div class="ai-header">
+        <div class="ai-status-dot"></div>
+        <div>
+          <div class="ai-name">AETHER AI</div>
+          <div class="ai-sub">Personal Assistant · Online</div>
+        </div>
+        <div class="ai-close" onclick="OS.toggleAI()">✕</div>
+      </div>
+      <div class="ai-messages" id="aiMessages">
+        <div class="ai-msg ai-msg-bot">Hello. I'm Aether, your personal AI. I know your memories, your music, your code. How can I assist?</div>
+        <div class="ai-msg ai-msg-bot">Try: "What is DualSoul?" · "Who am I?" · "Open my files"</div>
+      </div>
+      <div class="ai-input-row">
+        <input class="ai-input" id="aiInput" placeholder="Ask Aether..." onkeydown="if(event.key==='Enter') OS.sendAI()">
+        <div class="ai-send" onclick="OS.sendAI()">↑</div>
+      </div>
+    </div>
+
+    <!-- Notification Centre -->
+    <div id="notifCenter">
+      <div class="nc-header">NOTIFICATION CENTRE</div>
+      <div id="ncList"></div>
+    </div>
+
+    <!-- Taskbar -->
+    <div id="taskbar">
+      <div class="tb-btn" id="tb-launcher" onclick="OS.toggleLauncher()" title="App Launcher">⊞</div>
+      <div class="tb-sep"></div>
+      <div class="tb-btn" onclick="OS.openApp('dualsoul')" id="tb-dualsoul" title="DualSoul">✦</div>
+      <div class="tb-btn" onclick="OS.openApp('terminal')" id="tb-terminal" title="Terminal">⌨</div>
+      <div class="tb-btn" onclick="OS.openApp('files')" id="tb-files" title="Files">📁</div>
+      <div class="tb-btn" onclick="OS.openApp('music')" id="tb-music" title="Music">♪</div>
+      <div class="tb-btn" onclick="OS.openApp('gallery')" id="tb-gallery" title="Gallery">🖼</div>
+      <div class="tb-btn" onclick="OS.openApp('code')" id="tb-code" title="Code Editor">&lt;/&gt;</div>
+      <div class="tb-btn" onclick="OS.openApp('browser')" id="tb-browser" title="Browser">◎</div>
+      <div class="tb-btn" onclick="OS.openApp('notes')" id="tb-notes" title="Notes">✏</div>
+      <div class="tb-btn" onclick="OS.openApp('calc')" id="tb-calc" title="Calculator">▦</div>
+      <div class="tb-btn" onclick="OS.openApp('monitor')" id="tb-monitor" title="System Monitor">▲</div>
+      <div class="tb-btn" onclick="OS.openApp('settings')" id="tb-settings" title="Settings">⚙</div>
+      <div class="tb-sep"></div>
+      <div class="tb-btn" onclick="OS.toggleSpotlight()" title="Search (Ctrl+K)">🔍</div>
+      <div class="tb-btn" onclick="OS.toggleAI()" id="tb-ai" title="Aether AI">◈</div>
+      <div class="tb-btn" onclick="OS.toggleNC()" id="tb-nc" title="Notifications">🔔</div>
+      <div class="tb-status">
+        <div class="sys-led"></div>
+      </div>
+      <div class="tb-clock" id="tbClock">—</div>
+    </div>
+  </div>
+</div>
+
+<!-- Apps load order matters: apps before core -->
+<script src="js/apps/terminal.js"></script>
+<script src="js/apps/dualsoul.js"></script>
+<script src="js/apps/music.js"></script>
+<script src="js/apps/files.js"></script><!-- also contains Gallery, Code, Notes, Calc, Browser, Monitor, Settings -->
+<script src="js/core.js"></script>
+</body>
+</html>
